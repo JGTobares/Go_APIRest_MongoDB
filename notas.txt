@@ -1,0 +1,26 @@
+DEBUG
+
+Al importar la libreria "gorila mux", fue necesario realizar modificaciones sobre el archivo .bash_profile en el root del user.
+1) es necesario incluir la linea "export GO111MODULE=off", ya que al querer instalar la libreria con el comando "go get -u github.com/gorilla/mux",
+la misma se alojaba en el directorio "mod" y no en "pkg", por lo cual no era visible por GOPATH y GOROOT. 
+En caso de estar utilizando VS code es necesario comparar el GOPATH definido en .bash_profile con el GOPATH que se encuentra en el directorio del proyecto, 
+es posible verificar esto con el comando "go env" sobre el dic del proyecto y sobre terminal, en el dir raiz del user, con el comando "echo $GOPATH".
+Si no son coincidentes es necesario corregirlo sobre VS Code, esto se realiza dirigiendose a Code>Settings>User>Extensions>Go>Alternate Tools y editar
+el archivo "settings.json", agregando la siguente linea " "go.gopath": "/Users/gabi/go" ".
+
+Posterior al querer ejecutar el script, obtengo el error sobre "go.mod", se soluciona:
+1) Se quito la linea "export GO111MODULE=off" del .bash_profile
+2) Se ejecuto la linea de comandos "go mod init main.go", crea un nuevo archivo go.mod. Luego para anadir 
+los mod requirements se emplea el comando "go mod tidy", encuentra los modulos para los pkg 
+y es posible ejecutar el script con "go run main.go"
+
+Al agregar nuevos pkg sobre main, en el caso de movie.go, es necesario un refresh sobre go.mod 
+con el comando "go run init *.go" para seleccionar todos los archivos del directorio.
+
+Para incorporar MongoDB al proyecto, dentro de la terminal en VS Code es neceasrio ejecutar la linea de comandos 
+"go get gopkg.in/mgo.v2" para la gestion de Go con MongoDB y "go get gopkg.in/mgo.v2/bson" para la gestion de documentos y arhivos binarios
+A posterior "go mod tidy" para actualizar los module del proyecto
+
+se emplea la siguiente linea para importarlo dentro del script "gopkg.in/mgo.v2" y "gopkg.in/mgo.v2/bson"
+
+En MAC para mantener la sesion activa de MongoDB, dentro de terminal ejecutamos el comando "mongosh"
